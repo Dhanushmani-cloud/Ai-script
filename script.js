@@ -16,13 +16,24 @@ async function loadScript(filename) {
     document.getElementById('scriptOutput').innerText = text;
 }
 
-document.getElementById('generateBtn').addEventListener('click', async () => {
-    const prompt = document.getElementById('scenePrompt').value;
-    const characters = document.getElementById('characterNames').value;
-    const res = await fetch(`/api/generate-script?prompt=${encodeURIComponent(prompt)}&characters=${encodeURIComponent(characters)}`, { method: 'POST' });
-    const script = await res.text();
-    document.getElementById('scriptOutput').innerText = script;
-    loadHistory();
+document.getElementById("generateBtn").addEventListener("click", async () => {
+
+    const prompt = document.getElementById("scenePrompt").value;
+    const characters = document.getElementById("characterNames").value;
+
+    const response = await fetch("/api/generate-script", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            prompt: prompt,
+            characters: characters
+        })
+    });
+
+    const data = await response.json();
+    document.getElementById("scriptOutput").innerText = data.script;
 });
 
 document.getElementById('downloadBtn').addEventListener('click', async () => {
