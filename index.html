@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Script Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>AI Script Generator with Extras</h1>
+
+    <label>Character Names (comma separated):</label>
+    <input type="text" id="characterNames" placeholder="Alice, Bob, Detective John">
+
+    <label>Scene Prompt:</label>
+    <textarea id="scenePrompt" placeholder="Describe your scene..."></textarea>
+
+    <button id="generateBtn">Generate Script</button>
+    <button id="downloadBtn">Download PDF</button>
+    <button id="suggestBtn">Get Suggestions</button>
+
+    <h2>Generated Script:</h2>
+    <pre id="scriptOutput"></pre>
+
+    <h2>AI Suggestions:</h2>
+    <pre id="suggestOutput"></pre>
+
+    <h2>Script History:</h2>
+    <ul id="historyList"></ul>
+
+    <script src="script.js"></script>
+</body>
+</html>
