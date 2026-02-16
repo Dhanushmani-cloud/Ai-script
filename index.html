@@ -2,30 +2,115 @@
 <html>
 <head>
     <title>AI Script Generator</title>
-    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            height: 120px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        pre {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            margin-top: 15px;
+            border: 1px solid #ddd;
+        }
+    </style>
+
 </head>
 <body>
-    <h1>AI Script Generator with Extras</h1>
 
-    <label>Character Names (comma separated):</label>
-    <input type="text" id="characterNames" placeholder="Alice, Bob, Detective John">
+<h1>🎬 AI Script Generator</h1>
 
-    <label>Scene Prompt:</label>
-    <textarea id="scenePrompt" placeholder="Describe your scene..."></textarea>
+<label>Character Names (comma separated):</label>
+<input type="text" id="characterNames" placeholder="Arjun, Meera">
 
-    <button id="generateBtn">Generate Script</button>
-    <button id="downloadBtn">Download PDF</button>
-    <button id="suggestBtn">Get Suggestions</button>
+<label>Scene Prompt:</label>
+<textarea id="scenePrompt" placeholder="Describe your scene..."></textarea>
 
-    <h2>Generated Script:</h2>
-    <pre id="scriptOutput"></pre>
+<button id="generateBtn">Generate Script</button>
 
-    <h2>AI Suggestions:</h2>
-    <pre id="suggestOutput"></pre>
+<h2>Generated Script:</h2>
+<pre id="scriptOutput"></pre>
 
-    <h2>Script History:</h2>
-    <ul id="historyList"></ul>
+<script>
+    document.getElementById("generateBtn").addEventListener("click", async () => {
 
-    <script src="script.js"></script>
+        const prompt = document.getElementById("scenePrompt").value;
+        const characters = document.getElementById("characterNames").value;
+
+        if (!prompt || !characters) {
+            document.getElementById("scriptOutput").innerText =
+                "Please enter both characters and scene prompt.";
+            return;
+        }
+
+        try {
+            const response = await fetch("/api/generate-script", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        prompt: prompt,
+        characters: characters
+    })
+});
+
+
+            const data = await response.json();
+
+            if (data.script) {
+                document.getElementById("scriptOutput").innerText = data.script;
+            } else {
+                document.getElementById("scriptOutput").innerText = data.error;
+            }
+
+        } catch (error) {
+            document.getElementById("scriptOutput").innerText =
+                "Error connecting to server.";
+        }
+    });
+</script>
+
 </body>
 </html>
